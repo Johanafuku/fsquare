@@ -1,0 +1,13 @@
+{% extends "general/layout.html" %}
+
+
+{% block page_content %}
+<h2 class="register-supplier">Register Supplier</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-supplier">Register</button>
+</form>
+
+{% endblock %}

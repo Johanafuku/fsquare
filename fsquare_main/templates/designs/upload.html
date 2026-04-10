@@ -1,0 +1,19 @@
+{% extends "general/layout.html" %}
+{% load static %}
+
+{% block page_content %}
+  
+  {% if request.user.is_authenticated %}
+    <div class="upload">
+    <h2>Upload Your Design here</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="form-upload">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="buttonUpload">Analyze & Match Suppliers</button>
+    </form>
+    </div>
+    {% endif %}
+
+{% endblock %}

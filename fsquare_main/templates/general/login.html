@@ -1,0 +1,22 @@
+{% extends "general/layout.html" %}
+{% load static %}
+
+{% block page_content %}
+   <div class="login">
+    <div class="login-info">
+        <h2>Login</h2>
+        <p>Once logged in, you get access to our portfolio.</p>
+    </div>
+    <div class="login-image">
+        <img src="{% static 'images/login.png' %}" alt="">
+    </div>
+   </div>
+
+<div class="login-form">
+<form method="post" class="form-details">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="loginButton">Login</button>
+</form>
+</div>
+{% endblock %}

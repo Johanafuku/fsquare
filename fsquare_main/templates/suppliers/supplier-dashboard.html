@@ -1,0 +1,20 @@
+{% extends "general/layout.html" %}
+{% load static %}
+
+
+{% block page_content %}
+ {% if request.user.is_authenticated %}
+    <div class="logged">
+        <div class="logged-info">
+        <p>Welcome, {{ request.user.username }}</p>
+        <p class="logged-detail">This is where  you can update your products and find potential collaborators. </p>
+        <a href="{% url 'supplier-profile' %}">Complete/update profile</a>    
+    </div>
+         <div class="logged-img">
+            <img src="{% static 'images/supplier_dashboard.png' %}" alt="">
+        </div>
+        </div>
+
+   
+  {% endif %}
+{% endblock %}

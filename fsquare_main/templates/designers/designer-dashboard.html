@@ -1,0 +1,21 @@
+{% extends "general/layout.html" %}
+{% load static %}
+
+
+{% block page_content %}
+ {% if request.user.is_authenticated %}
+    <div class="logged">
+        <div class="logged-info">
+        <p>Welcome, {{ request.user.username }}</p>
+        <p class="logged-detail">Upload  your Images, 
+             Tech Packs and Sketches to connect with the perfect supplier for you. </p>
+        <a href="{% url 'upload-design' %}">Upload a Design</a>
+        </div>
+         <div class="logged-img">
+            <img src="{% static 'images/designer_dashboard.png' %}" alt="">
+        </div>
+        </div>
+
+   
+  {% endif %}
+{% endblock %}

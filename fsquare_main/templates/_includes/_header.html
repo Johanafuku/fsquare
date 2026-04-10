@@ -1,0 +1,30 @@
+{% load static %}
+<header>
+    <div class="header-main">
+        <img src="{% static 'images/logo_main.png'  %}" alt="fsquare">
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="">News</a></li>
+               {% if request.user.is_authenticated %}
+                    {% if request.user.designer %}
+                    <li><a href="{% url 'designer-dashboard' %}">Profile</a></li>
+                    {% elif request.user.supplier %}
+                    <li><a href="{% url 'supplier-dashboard' %}">Profile</a></li>
+                    {% endif %}
+                <li>
+                     <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                          {% csrf_token %}
+                       <button type="submit" class="logout">Logout</button>
+                     </form>
+                 </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+                    
+            </ul>
+        </nav>
+    </div>
+    
+</header>

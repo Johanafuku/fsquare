@@ -1,0 +1,50 @@
+{% extends "general/layout.html" %}
+{% load static %}
+
+{% block page_content %}
+
+    
+  <div class="hero">
+    <div class="hero-info">
+    <p class="hero-text">F² is an AI-powered platform that matches small fashion businesses with  innovative and sustainable textile producers. Build your future on  sustainable foundations.</p>
+    </div>
+    <div class="hero-buttons">
+        <div class="button-bck">
+        <a href="{% url 'register-supplier' %}">
+            <img src="{% static 'images/cloth.png' %}" alt="">
+        </a>
+        <span>sign up supplier</span>
+        </div>
+        <div class="button-bck">
+        <a href="{% url 'register-designer' %}">
+            <img src="{% static 'images/needle.png' %}" alt="">
+        </a>
+        <span>sign up designer</span>
+        </div>
+    </div>  
+</div>
+
+
+<section class="section-main">
+    <h2>Join F²</h2>
+    <div class="section-details">
+        <div class="section-designer">
+            <p>Dear Designer, Sign up for free to discover second-hand denim for upcycling, 
+            innovative textiles, and next-generation materials such as vegan leather. 
+            Find the materials you need to turn your ideas into reality.</p>
+            <a href="{% url 'register-designer' %}"><img src="{% static 'images/designer_signup.png' %}" alt=""></a>
+        </div>
+        <div class="section-supplier">
+            <a href="{% url 'register-supplier' %}"><img src="{% static 'images/supplier_signup.png' %}" alt=""></a>
+            <p>Dear Supplier, Join today and connect with designers near you. 
+            Share your textiles, sell surplus materials, and give overproduction a new life.
+            Reach creators who are actively looking for innovative and sustainable fabrics.
+            </p>
+        </div>
+        
+    </div>
+</section>
+  
+{% endblock %}
+
+

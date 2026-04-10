@@ -1,0 +1,16 @@
+{% extends "general/layout.html" %}
+{% load static %}
+
+
+{% block page_content %}
+<div class="supplier">
+<h2 class="supplier-title">Complete profile</h2>
+
+<form action="" method="POST">
+ {% csrf_token %}
+ {{form.as_p}}
+
+ <button type="submit" class="btn-update">Update</button>
+</form>
+</div>
+{% endblock %}

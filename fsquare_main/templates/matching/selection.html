@@ -1,0 +1,14 @@
+{% extends "general/layout.html" %}
+
+{% block page_content %}
+<div class="match-result">
+<h2 class="matching-title">Matching Results</h2>
+
+{% for result in results %}
+    <div class="matching">
+        <h3>{{ result.supplier.name }}</h3>
+        <p class="matching-info"><span>Sales contact:</span> {{ result.supplier.contact_email }}</p>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}
