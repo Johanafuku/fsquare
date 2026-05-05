@@ -1,5 +1,7 @@
 from django import forms
-from .models import Supplier
+from .models import Supplier, SupplierImage
+import ast
+
 
 class SupplierForm(forms.ModelForm):
     class Meta:
@@ -7,56 +9,47 @@ class SupplierForm(forms.ModelForm):
         fields = '__all__'
 
 
-class SupplierProfileForm(forms.ModelForm):
+class SupplierProfileForm(forms.Form):
 
     fabric_types = forms.CharField(required=False)
     colors_available = forms.CharField(required=False)
-    processing = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':'woven, non woven'}))
-    min_meters = forms.FloatField(required=False, min_value=0, widget=forms.NumberInput(attrs={'placeholder':'e.g. 100'}))
-    contact_email = forms.EmailField(required=False, widget=forms.EmailInput(attrs={'placeholder':'example@email.com'}))
+    processing = forms.CharField(required=False)
 
+    min_meters = forms.FloatField(required=False, min_value=0)
+    number_of_pieces = forms.IntegerField(required=False, min_value=0)
+    contact_email = forms.EmailField(required=False)
 
+    # ---------- PARSER ----------
+    def parse_list(self, data):
+        if not data:
+            return []
+
+        try:
+            parsed = ast.literal_eval(data)
+            if isinstance(parsed, list):
+                return [str(item).strip() for item in parsed if str(item).strip()]
+        except:
+            pass
+
+        return [item.strip() for item in data.split(",") if item.strip()]
+
+    def clean(self):
+        cleaned = super().clean()
+
+        cleaned["fabric_types"] = self.parse_list(cleaned.get("fabric_types"))
+        cleaned["colors_available"] = self.parse_list(cleaned.get("colors_available"))
+        cleaned["processing"] = self.parse_list(cleaned.get("processing"))
+
+        return cleaned
+
+class SupplierImageForm(forms.ModelForm):
     class Meta:
-        model = Supplier
-        fields = [
-            'fabric_types',
-            'colors_available',
-            'processing',
-            'min_meters',
-            'contact_email'
-        ]
+        model = SupplierImage
+        fields = ["image"]
+    
 
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        if self.instance.fabric_types:
-            self.fields['fabric_types'].initial = ', '.join(self.instance.fabric_types)
-
-        if self.instance.colors_available:
-            self.fields['colors_available'].initial = ', '.join(self.instance.colors_available)
-
-        if self.instance.processing:
-            self.fields['processing'].initial = ', '.join(self.instance.processing)
-
-    # Convert text → list
-    def clean_fabric_types(self):
-        data = self.cleaned_data.get('fabric_types', '')
-        return [item.strip() for item in data.split(',') if item.strip()]
-
-    def clean_colors_available(self):
-        data = self.cleaned_data.get('colors_available', '')
-        return [item.strip() for item in data.split(',') if item.strip()]
-
-    def clean_processing(self):
-        data = self.cleaned_data.get('processing', '')
-        return [item.strip() for item in data.split(',') if item.strip()]
-
-    # Extra validation (optional but good)
-    def clean_min_meters(self):
-        value = self.cleaned_data.get('min_meters')
-
-        if value is not None and value < 0:
-            raise forms.ValidationError("Minimum meters must be positive")
-
-        return value
+#for the image from suppliers
+class SupplierImageForm(forms.ModelForm):
+    class Meta:
+        model = SupplierImage
+        fields = ["image"]

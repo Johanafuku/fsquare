@@ -8,9 +8,71 @@
 
 <form action="" method="POST">
  {% csrf_token %}
- {{form.as_p}}
+    <input type="text" name="fabric_types" id="id_fabric_types" placeholder="cotton, silk">
+    <input type="text" name="colors_available" placeholder="red, blue" id="id_colors_available">
+    <input type="text" name="processing" placeholder="woven" id="id_processing">
+
+    <input type="number" name="min_meters" placeholder="100" id="id_min_meters">
+    <input type="number" name="number_of_pieces" placeholder="10" id="id_number_of_pieces">
+    <input type="email" name="contact_email" placeholder="email@example.com" id="id_contact_email">
 
  <button type="submit" class="btn-update">Update</button>
 </form>
+</div>
+
+<div class="profile-images">
+    <h3 class="supplier-title-image">Upload portafolio image</h3>
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ image_form.as_p }}
+    <button type="submit" class="btn-upload-image">Upload Image</button>
+    </form>
+
+</div>
+
+<div class="profile-portfolio">
+    <h3 class="portfolio-title">Your Portfolio</h3>
+
+    <div class="portfolio-images">
+    {% for img in images %}
+            <img src="{{ img.image.url }}" class="portfolio-designs">
+
+            <form method="POST" action="{% url 'delete-supplier-image' img.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="portfolio-img-delete">delete</button>
+            </form>
+    {% empty %}
+        <p>No images uploaded yet.</p>
+    {% endfor %}
+    </div>
+</div>
+
+<div class="profile-portfolio-info">
+    <h3 class="profile-portfolio-title">Your Profile Info</h3>
+
+    <p><strong>Fabrics:</strong></p>
+    <ul>
+        {% for item in supplier.fabric_types %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <p><strong>Colors:</strong></p>
+    <ul>
+        {% for item in supplier.colors_available %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <p><strong>Processing:</strong></p>
+    <ul>
+        {% for item in supplier.processing %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>Min meters: {{ supplier.min_meters }}</p>
+    <p>Pieces: {{ supplier.number_of_pieces }}</p>
+    <p>Email: {{ supplier.contact_email }}</p>
 </div>
 {% endblock %}

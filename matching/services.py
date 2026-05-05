@@ -24,13 +24,16 @@ def analyze_design_with_ai(design):
     Color: {design.color}
     Texture: {design.texture}
     Quantity: {design.quantity_meters} meters
+    Pieces: {design.pieces}
 
     Normalize the data and return ONLY valid JSON like this:
     {{
         "normalize_fabric": "",
         "normalize_color": "",
         "normalize_texture": "",
-        "quantity": number
+        "quantity": number,
+        "pieces": number,
+
     }}
     """
 
@@ -57,13 +60,16 @@ def analyze_design_with_ai(design):
     ai_text = response.choices[0].message.content
     #convert to json
     try: 
-        structured_data = json.loads(ai_text)
+        raw_data = json.loads(ai_text)
     except json.JSONDecodeError:
-        structured_data = {
-            "normalized_fabric": design.fabric_type.lower(),
-            "normalized_color": design.color.lower(),
-            "normalized_texture": design.texture.lower(),
-            "quantity": design.quantity_meters,
+        raw_data = {}
+
+    structured_data = {
+        "normalized_fabric": raw_data.get("normalize_fabric") or design.fabric_type.lower(),
+        "normalized_color": raw_data.get("normalize_color") or design.color.lower(),
+        "normalized_texture": raw_data.get("normalize_texture") or design.texture.lower(),
+        "quantity": raw_data.get("quantity") or design.quantity_meters or 0,
+        "pieces": raw_data.get("pieces") or design.pieces or 0,
         }
 
     return structured_data
@@ -72,16 +78,25 @@ def analyze_design_with_ai(design):
 def compute_match_score(ai_data, supplier):
     score = 0
 
-    if ai_data["normalized_fabric"] in supplier.fabric_types:
+    fabric_types = supplier.fabric_types or []
+    colors = supplier.colors_available or []
+    processing = supplier.processing or []
+    min_meters =  supplier.min_meters or 0
+    number_of_pieces = supplier.number_of_pieces or 0
+
+    if ai_data["normalized_fabric"] in fabric_types:
         score += 3
 
-    if ai_data["normalized_color"] in supplier.colors_available:
-        score += 2
+    if ai_data["normalized_color"] in colors:
+        score += 3
 
-    if ai_data["normalized_texture"] in supplier.processing:
-        score += 2
+    if ai_data["normalized_texture"] in processing:
+        score += 3
 
-    if ai_data["quantity"] <= supplier.min_meters:
+    if ai_data["quantity"] >= min_meters:
+        score += 3
+
+    if ai_data["pieces"] >= number_of_pieces:
         score += 3
 
     return score

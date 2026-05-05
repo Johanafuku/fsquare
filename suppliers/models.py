@@ -10,6 +10,23 @@ class Supplier(models.Model):
     processing = models.JSONField(null=True, blank=True) #wooven, nonwooven, knitten
     min_meters = models.FloatField(null=True, blank=True)
     contact_email = models.EmailField(null=True, blank=True)
+    number_of_pieces = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+
+#portfolio of images from supplier
+class SupplierImage(models.Model):
+
+    supplier = models.ForeignKey(
+        Supplier,
+        on_delete=models.CASCADE,
+        related_name="images"  
+    )
+
+    image = models.ImageField(upload_to="supplier_images/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image of {self.supplier.user.username}"

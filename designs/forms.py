@@ -9,5 +9,6 @@ class DesignForm(forms.ModelForm):
             'fabric_type',
             'color',
             'texture',
-            'quantity_meters'
+            'quantity_meters',
+            'pieces'
         ]
