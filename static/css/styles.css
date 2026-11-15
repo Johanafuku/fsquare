@@ -524,6 +524,11 @@ label[for="id_image"] {
     font-weight: 500;
 }
 
+/*CONTACT*/
+.contact h1 {
+    color: var(--font-color);
+    
+}
 
 /*RESPONSIVE MOBILE, TABLET, LAPTOP*/
 

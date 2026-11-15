@@ -6,7 +6,7 @@
         <nav class="main-nav">
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="">News</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
                {% if request.user.is_authenticated %}
                     {% if request.user.designer %}
                     <li><a href="{% url 'designer-dashboard' %}">Profile</a></li>
