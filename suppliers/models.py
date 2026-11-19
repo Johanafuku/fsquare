@@ -12,6 +12,14 @@ class Supplier(models.Model):
     contact_email = models.EmailField(null=True, blank=True)
     number_of_pieces = models.IntegerField(null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        # supplier name is main name
+        if not self.name and self.user_id:
+            self.name = self.user.username
+
+        super().save(*args, **kwargs)
+
+
     def __str__(self):
         return self.name
 

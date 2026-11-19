@@ -1,20 +1,12 @@
 {% extends "general/layout.html" %}
 
 {% block page_content %}
-<div class="match-result">
-<h2 class="matching-title">Matching Results</h2>
 
-{% if results %}
-    {% for result in results %}
-        <div class="matching">
-            <h3>{{ result.supplier.user }}</h3>
-            <p class="matching-info">
-                <span>Sales contact:</span> {{ result.supplier.contact_email }}
-            </p>
-        </div>
-    {% endfor %}
-{% else %}
-    <p>No supplier found, contact us to personalize search</p>
-{% endif %}
+<div class="match-result">
+    <div id="root" data-design-id="{{ design.id }}"></div>
 </div>
+
+<script type="module" src="http://127.0.0.1:5173/@vite/client"></script>
+<script type="module" src="http://127.0.0.1:5173/src/main.jsx"></script>
+
 {% endblock %}

@@ -4,12 +4,14 @@ from designs.forms import DesignForm
 from matching.services import run_matching_pipeline
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 @login_required
 def designer_dashboard(request):
     return render(request, 'designers/designer-dashboard.html')
 
+@method_decorator(login_required, name="dispatch")
 class UploadView(View):
 
     def get(self, request):
