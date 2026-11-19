@@ -526,9 +526,13 @@ label[for="id_image"] {
 }
 
 /*CONTACT*/
-.contact h1 {
+.contact h1, .contact h2 {
     color: var(--font-color);
     
+}
+
+.contact h2 {
+ font-size: 17px;
 }
 
 /*RESPONSIVE MOBILE, TABLET, LAPTOP*/
